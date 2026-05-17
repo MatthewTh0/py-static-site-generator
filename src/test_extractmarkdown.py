@@ -2,7 +2,9 @@
 
 import unittest
 
-from extract_markdown import extract_markdown_images, extract_markdown_links
+from funcs_extract_markdown import extract_markdown_images, extract_markdown_links, markdown_to_blocks, BlockType, blocks_to_block_type_list_helper
+
+
 
 class TestExtractMarkdown(unittest.TestCase):
     def test_extract_markdown_images(self):
@@ -46,6 +48,116 @@ class TestExtractMarkdown(unittest.TestCase):
         #print("I was here")
         self.assertListEqual([("flower image", "https://www.gstatic.com/webp/gallery3/1.png")],extractedImage)
         
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+            """
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+
+    def test_markdown_to_blocks_gap(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+
+
+
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )    
+
+    def test_markdown_to_block_types(self):
+        md = """
+```
+dkajfl;djaflk
+```
+
+- This is a list
+- with items
+
+> A quote here
+> keeps doctors away
+
+1. Yes
+2. No
+
+### My Heading
+
+Blah Blah
+
+"""
+        blocks = markdown_to_blocks(md)
+        blockTypeList = blocks_to_block_type_list_helper(blocks)
+        #print(f'blocks: {blocks}')
+        #blockTypeList = []
+        #for block in blocks:
+        #    blockTypeList.append(block_to_block_type(block))#.value)
+            #print(f'Found block of:\n{block}\n to be of type:\n {block_to_block_type(block).value}\n\n')
+        
+        self.assertListEqual(blockTypeList, [BlockType.CODE,BlockType.ULIST,BlockType.QUOTE,BlockType.OLIST,BlockType.HEAD,BlockType.PARA])
+        #self.assertEqual(
+        #    blocks,
+        #    [
+        #        "This is **bolded** paragraph",
+        #        "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+        #        "- This is a list\n- with items",
+        #    ],
+        #)    
+
+    def test_markdown_to_block_types_other(self):
+        md = """
+> FOR
+> THE
+> EMPEROR
+
+Pargraph here! Ok, maybe
+just a few sentences.
+
+- Example
+- of
+- Unordered 
+- List
+
+1. Now, order
+2. Yes, order
+3. Maybe order?
+
+## Programming Below!
+
+```
+blocks = markdown_to_blocks(md)
+```
+
+"""
+        blocks = markdown_to_blocks(md)
+        blockTypeList = blocks_to_block_type_list_helper(blocks)
+        self.assertListEqual(blockTypeList, [BlockType.QUOTE,BlockType.PARA, BlockType.ULIST,BlockType.OLIST,BlockType.HEAD,BlockType.CODE])
 
 if __name__ == "__main__":
     unittest.main()
