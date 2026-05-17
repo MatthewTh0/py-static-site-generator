@@ -12,7 +12,7 @@ def container_for_headers(md_block:str) -> HTMLNode:
     foundTags = md_block.split(maxsplit=1)
     
     #print(f"Found tags of {foundTags} for block {md_block}")
-    tagNum = len(foundTags)+1
+    tagNum = len(foundTags[0])
     return ParentNode(f'h{tagNum}', [])
 
 def container_from_block_type(blockType:BlockType) -> HTMLNode:
@@ -137,6 +137,8 @@ def markdown_to_html_node(md_doc:str) -> HTMLNode:
         #else:
         #    parentContainer.children = [innerBlockChildren]
         #print(f"Resulting parent container:\n{parentContainer} and to html:\n{parentContainer.to_html()}")
+        #print(f"Found parent container of {parentContainer}")
+        #print(f"Found html of {parentContainer.to_html()}")
         containerChildren.append(parentContainer)
 
 

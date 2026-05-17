@@ -26,12 +26,13 @@ def split_nodes_delimiter(old_nodes:list[TextNode], delimiter:str, text_type:Tex
                 trueResult.append(old_node)
                 raise ValueError(f'Invalid markdown syntax! Odd number of delimiters found in old_node.text')
             delimiterFound= True
-            beginSymbol = split_node[0]
+            #beginSymbol = split_node[0]
             #endSymbol = split_node[split_node_len-1]
             nextIsSpecial = False
-            if not beginSymbol:
-                nextIsSpecial= True
+            #if not beginSymbol:
+            #    nextIsSpecial= True
             while counter<split_node_len:
+                #print(f'Next is special {nextIsSpecial} section {counter} for {split_node}')
                 if not split_node[counter]:
                     nextIsSpecial = not nextIsSpecial
                     counter+=1

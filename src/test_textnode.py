@@ -131,6 +131,15 @@ class TestTextNode(unittest.TestCase):
         #fullResult.extend(boldDelimited)
         self.assertEqual(expectedResult, boldDelimited)#fullResult)
 
+    def test_split_italic_at_beginning_and_end(self):
+        codeItalicTest = TextNode("_An unpopular opinion, I know._", TextType.TEXT)
+        codeDelimited = split_nodes_delimiter([codeItalicTest],"_",TextType.ITALIC)
+        expectedResult = [
+            TextNode("An unpopular opinion, I know.", TextType.ITALIC)
+        ]
+        print("HEREE")
+        self.assertEqual(codeDelimited,expectedResult)
+
     def test_multi_code_delim_with_delim_at_end(self):
         codeDoubleNode = TextNode("This is text with not just `one code block` but `two code blocks`", TextType.TEXT)
         codeDelimited = split_nodes_delimiter([codeDoubleNode], "`", TextType.CODE)

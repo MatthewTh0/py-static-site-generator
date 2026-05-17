@@ -65,3 +65,7 @@ def blocks_to_block_type_list_helper(markdown_blocks:list[str])-> list[BlockType
     for block in markdown_blocks:
         blockTypeList.append(block_to_block_type(block))
     return blockTypeList
+
+def extract_title(markdown:str) -> str:
+    foundResult = re.findall(r"^#\s([^\n]*)",markdown)
+    return foundResult[0]

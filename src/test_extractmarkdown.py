@@ -2,7 +2,7 @@
 
 import unittest
 
-from funcs_extract_markdown import extract_markdown_images, extract_markdown_links, markdown_to_blocks, BlockType, blocks_to_block_type_list_helper
+from funcs_extract_markdown import extract_title,extract_markdown_images, extract_markdown_links, markdown_to_blocks, BlockType, blocks_to_block_type_list_helper
 
 
 
@@ -158,6 +158,16 @@ blocks = markdown_to_blocks(md)
         blocks = markdown_to_blocks(md)
         blockTypeList = blocks_to_block_type_list_helper(blocks)
         self.assertListEqual(blockTypeList, [BlockType.QUOTE,BlockType.PARA, BlockType.ULIST,BlockType.OLIST,BlockType.HEAD,BlockType.CODE])
+
+    def test_extract_title_easy(self):
+        found = extract_title("# Hello")
+        self.assertEqual(found, "Hello")
+
+    def test_extract_title_medium(self):
+        found = extract_title("""# I am doing FINE
+                              But what about you?
+                              """)
+        self.assertEqual(found, "I am doing FINE")
 
 if __name__ == "__main__":
     unittest.main()
