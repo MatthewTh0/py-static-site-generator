@@ -47,9 +47,7 @@ class TestTextNode(unittest.TestCase):
             TextNode("italic looking", TextType.ITALIC),
             TextNode(" word", TextType.TEXT),
         ]
-        #print(f'result=\n{result}\nvs\nexpectedresult=\n{expectedResult}')
         self.assertEqual(expectedResult,result)
-        #print("It worked?")
 
     def test_split_node_bold_delim_test(self):
         boldNode = TextNode("This is text with a **bold bored** word", TextType.TEXT)
@@ -72,17 +70,12 @@ class TestTextNode(unittest.TestCase):
         ]
 
         self.assertEqual(expectedResult,result)
-        #
-        # Tried to have error raising verified, but idk doesn't work
         
     def test_split_node_invalid_delim_test(self):
-        #with self.assertRaises(Exception) as context:
         invalidNode = TextNode("This is text with a `code block word", TextType.TEXT)
        
         with self.assertRaises(ValueError) as context:
-            # broken function ()
-            split_nodes_delimiter([invalidNode],"`", TextType.CODE)
-        #print(f'Found exception perhaps: {str(context.exception)} {context.exception}')    
+            split_nodes_delimiter([invalidNode],"`", TextType.CODE) 
         self.assertTrue('Invalid markdown syntax! Odd number of delimiters found in old_node.text' in str(context.exception))
 
     def test_text_error_to_html(self):
@@ -113,7 +106,6 @@ class TestTextNode(unittest.TestCase):
     def test_multi_split_alternate_method(self):
         codeBoldNode = TextNode("This is text with a `code block` and **bold bored** words in it.", TextType.TEXT)
         codeDelimited = split_nodes_delimiter([codeBoldNode],"`", TextType.CODE)
-        #print(f"Code delimited {codeDelimited}")
         boldDelimited = split_nodes_delimiter(codeDelimited,"**", TextType.BOLD)
         
         expectedResult=[
@@ -123,13 +115,7 @@ class TestTextNode(unittest.TestCase):
             TextNode("bold bored", TextType.BOLD),
             TextNode(" words in it.", TextType.TEXT),
         ]
-        #print(f"Code delimited:\n{codeDelimited}\nBold Delimited:\n{boldDelimited}\nExpected:\n{expectedResult}")
-        
-        #fullResult = []
-        #fullResult.append(codeDelimited[0])
-        #fullResult.append(codeDelimited[1])
-        #fullResult.extend(boldDelimited)
-        self.assertEqual(expectedResult, boldDelimited)#fullResult)
+        self.assertEqual(expectedResult, boldDelimited)
 
     def test_split_italic_at_beginning_and_end(self):
         codeItalicTest = TextNode("_An unpopular opinion, I know._", TextType.TEXT)
@@ -148,10 +134,8 @@ class TestTextNode(unittest.TestCase):
             TextNode("one code block", TextType.CODE),
             TextNode(" but ", TextType.TEXT),
             TextNode("two code blocks", TextType.CODE),
-            #TextNode(" words in it.", TextType.TEXT),
         ]
         self.assertEqual(codeDelimited, exceptedResult)
-        #return
 
     def test_multi_code_delim_with_delim_not_and_edges(self):
         codeTripleNode = TextNode("This is text with not just `one code block` but `two code blocks` with words in it.", TextType.TEXT)
@@ -164,7 +148,6 @@ class TestTextNode(unittest.TestCase):
             TextNode(" with words in it.", TextType.TEXT),
         ]
         self.assertEqual(codeDelimited, exceptedResult)
-        #return
 
     def test_split_images(self):
         node = TextNode(
@@ -255,20 +238,6 @@ class TestTextNode(unittest.TestCase):
             broken_function()
 
         self.assertTrue('This is broken' in str(context.exception))
-     
-        # expectedResult=[
-        #    TextNode("This is text with a ", TextType.TEXT),
-        #    TextNode("code block", TextType.CODE),
-        #    TextNode(" word", TextType.TEXT),
-        #]
-
-        #self.assertEqual(expectedResult,result)
-        #print("It worked?")
-        # Below doest't work
-        #def test_text_error_to_html(self):
-        #    node = TextNode("Blah", "hello") # type: ignore
-        #    self.assertRaises(ValueError,TextNode("Blah", "hello").to_html_node())
-
 
     def test_complete_package(self):
         text= "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"

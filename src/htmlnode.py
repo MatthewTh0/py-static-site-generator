@@ -57,7 +57,3 @@ class ParentNode(HTMLNode):
                     htmlFound+=childNode.to_html()
             htmlFound += f'</{self.tag}>'
             return htmlFound
-        
-    #def __repr
-
-    #def 

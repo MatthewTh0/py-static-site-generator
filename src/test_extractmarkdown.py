@@ -12,28 +12,24 @@ class TestExtractMarkdown(unittest.TestCase):
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
         )
         self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
-        #print("1 no exists")
 
     def test_extract_markdown_demo_image(self):
         extractedImage = extract_markdown_images(
             "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
         )
         self.assertListEqual([("rick roll", "https://i.imgur.com/aKaOqIh.gif"), ("obi wan", "https://i.imgur.com/fJRm4Vk.jpeg")],extractedImage)
-        #print("2 is first?")
 
     def test_extract_markdown_demo_link(self):
         extractedLink = extract_markdown_links(
             "This is a text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
         )
         self.assertListEqual([("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")],extractedLink)
-        #print("3")
 
     def test_extract_markdown_links(self):
         extractedLink = extract_markdown_links(
             "This is a text with a link [to google](https://www.google.com)"
         )
         self.assertListEqual([("to google", "https://www.google.com")], extractedLink)
-        #print("4")
 
     def test_extract_markdown_mixed_links(self):
         extractedLink = extract_markdown_links(
@@ -45,7 +41,6 @@ class TestExtractMarkdown(unittest.TestCase):
         extractedImage = extract_markdown_images(
             "This is a text with a link [to boot dev](https://www.boot.dev) and an image of a flower. ![flower image](https://www.gstatic.com/webp/gallery3/1.png)"
         )
-        #print("I was here")
         self.assertListEqual([("flower image", "https://www.gstatic.com/webp/gallery3/1.png")],extractedImage)
         
     def test_markdown_to_blocks(self):
@@ -114,21 +109,7 @@ Blah Blah
 """
         blocks = markdown_to_blocks(md)
         blockTypeList = blocks_to_block_type_list_helper(blocks)
-        #print(f'blocks: {blocks}')
-        #blockTypeList = []
-        #for block in blocks:
-        #    blockTypeList.append(block_to_block_type(block))#.value)
-            #print(f'Found block of:\n{block}\n to be of type:\n {block_to_block_type(block).value}\n\n')
-        
         self.assertListEqual(blockTypeList, [BlockType.CODE,BlockType.ULIST,BlockType.QUOTE,BlockType.OLIST,BlockType.HEAD,BlockType.PARA])
-        #self.assertEqual(
-        #    blocks,
-        #    [
-        #        "This is **bolded** paragraph",
-        #        "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
-        #        "- This is a list\n- with items",
-        #    ],
-        #)    
 
     def test_markdown_to_block_types_other(self):
         md = """

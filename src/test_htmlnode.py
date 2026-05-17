@@ -21,7 +21,6 @@ class TestHTMLNode(unittest.TestCase):
         self.assertNotEqual(node, node2)
 
     # Leaf tests
-
     def test_leaf_to_html_p(self):
         node = LeafNode("p", "Hello, world!")
         self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
@@ -35,7 +34,6 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node.to_html(), "<b>I'm bold!</b>")    
 
     # Parent/child test
-
     def test_to_html_multiple_children(self):
         node = ParentNode(
         "p",
@@ -93,9 +91,7 @@ This is another paragraph with _italic_ text and `code` here
 """
 
         node = markdown_to_html_node(md)
-        #print(f'Node so far {node}')
         html = node.to_html()
-        #print(f"Found html of : {html}")
         self.assertEqual(
            html,
             "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
@@ -110,11 +106,7 @@ the **same** even with inline stuff
 """
 
         node = markdown_to_html_node(md)
-        #print(f"node:\n{node}")
-        html = node.to_html()
-        #print(f"Found html of    : {html}")
-        #realAnswer="<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>"
-        #print(f'Supposed to match: {realAnswer}') 
+        html = node.to_html() 
         self.assertEqual(
             html,
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
@@ -130,11 +122,7 @@ the **same** even with inline stuff
 """
 
             node = markdown_to_html_node(md)
-            #print(f"node:\n{node}")
             html = node.to_html()
-            #print(f"Found html of    : {html}")
-            #realAnswer="<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>"
-            #print(f'Supposed to match: {realAnswer}') 
             self.assertEqual(
                 html,
                 "<div><h3>This <i>is</i> <b>pretty</b> special</h3><blockquote>One small step for a man\nOne giant step for mankind\nNeil Armstrong</blockquote></div>",
@@ -151,11 +139,7 @@ the **same** even with inline stuff
 """
 
             node = markdown_to_html_node(md)
-            #print(f"node:\n{node}")
             html = node.to_html()
-            #print(f"Found html of    : {html}")
-            #realAnswer="<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>"
-            #print(f'Supposed to match: {realAnswer}') 
             self.assertEqual(
                 html,
                 "<div><ul><li>This <i>is</i> an</li><li>unordered list</li></ul><ol><li>But this <b>is</b></li><li>Ordered</li><li>Yep</li></ol></div>",

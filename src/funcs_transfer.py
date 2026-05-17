@@ -5,8 +5,6 @@ from funcs_htmlnode import markdown_to_html_node
 from funcs_extract_markdown import extract_title
 
 def copy_directory_content(srcDirectory:str,destDirectory:str, safetyOn:bool=True):
-    #print(os.path.abspath("."))
-    #print(safetyOn)
     if not os.path.exists(srcDirectory):
         raise NotADirectoryError("Source directory must exist to copy!")
     if os.path.exists(destDirectory):
@@ -23,11 +21,9 @@ def copy_directory_content(srcDirectory:str,destDirectory:str, safetyOn:bool=Tru
         else:
             shutil.rmtree(destDirectory)
     os.mkdir(destDirectory)
-    #thisSrcDirList = os.listdir(srcDirectory)
     directoryList = os.listdir(srcDirectory)
     for filepath in directoryList:
         fullPath = os.path.join(srcDirectory, filepath)
-        #print(f"Filepath {fullPath}")
         if os.path.isfile(fullPath):
             print(f'Copying file: {filepath} from {fullPath} to {destDirectory}')
             shutil.copy(fullPath, destDirectory)
@@ -49,17 +45,13 @@ def generate_page(from_path:str, template_path:str, dest_path:str, basepath:str=
         with open(template_path) as templFile:
             templFileContent = templFile.read()
         createdHTMLNodes = markdown_to_html_node(mdFileContent)
-        #print(f"Created nodes of: {createdHTMLNodes}")
         createdHTMLFileContent = createdHTMLNodes.to_html()
         thisTitle = extract_title(mdFileContent)
-        #print(f"Found title of {thisTitle} and content of {createdHTMLFileContent}")
         finalFileContent = templFileContent.replace("{{ Title }}", thisTitle)
         finalFileContent =finalFileContent.replace("{{ Content }}", createdHTMLFileContent)
         finalFileContent = finalFileContent.replace('href="/',f'href="{basepath}/')
         finalFileContent = finalFileContent.replace('src="/', f'src="{basepath}/')
         if not os.path.exists(dest_path):
-            #print(os.path.dirname(dest_path))
-
             os.makedirs(os.path.dirname(dest_path),exist_ok=True)
         with open(dest_path, "a") as outFile:
             outFile.write(finalFileContent)
