@@ -220,4 +220,6 @@ __marimo__/
 
 
 # Generated content
-public/
+#public/
+public.old/
+publicV2/

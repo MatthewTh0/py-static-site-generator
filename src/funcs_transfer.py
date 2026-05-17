@@ -38,7 +38,7 @@ def copy_directory_content(srcDirectory:str,destDirectory:str, safetyOn:bool=Tru
             copy_directory_content(fullPath,subDestPath, safetyOn)
 
 
-def generate_page(from_path:str, template_path:str, dest_path:str):
+def generate_page(from_path:str, template_path:str, dest_path:str,basepath:str="/"):
     if os.path.exists(from_path) and os.path.isfile(from_path):
 
         print(f"Generating page from {from_path} to {dest_path} using {template_path}")
@@ -55,6 +55,8 @@ def generate_page(from_path:str, template_path:str, dest_path:str):
         #print(f"Found title of {thisTitle} and content of {createdHTMLFileContent}")
         finalFileContent = templFileContent.replace("{{ Title }}", thisTitle)
         finalFileContent =finalFileContent.replace("{{ Content }}", createdHTMLFileContent)
+        finalFileContent = finalFileContent.replace('href="/',f'href="{basepath}')
+        finalFileContent = finalFileContent.replace('src="/', f'src="{basepath}')
         if not os.path.exists(dest_path):
             #print(os.path.dirname(dest_path))
 
@@ -64,7 +66,7 @@ def generate_page(from_path:str, template_path:str, dest_path:str):
     else:
         raise Exception()
     
-def generate_pages_recursive(dir_path_content:str, template_path:str, dest_dir_path:str):
+def generate_pages_recursive(dir_path_content:str, template_path:str, dest_dir_path:str, basepath:str="/"):
     if not os.path.exists(dir_path_content):
         raise NotADirectoryError()
     dirToCopy= os.listdir(dir_path_content)
@@ -77,8 +79,8 @@ def generate_pages_recursive(dir_path_content:str, template_path:str, dest_dir_p
             else:
                 newDirEntry =dirEntry.replace(".md",".html")
                 fullNewDestPath=os.path.join(dest_dir_path,newDirEntry)
-                generate_page(fullSrcPath, template_path, fullNewDestPath)
+                generate_page(fullSrcPath, template_path, fullNewDestPath, basepath)
         else:
             if not os.path.exists(fullDestPath):
                 os.makedirs(fullDestPath, exist_ok=True)
-            generate_pages_recursive(fullSrcPath,template_path,fullDestPath)
+            generate_pages_recursive(fullSrcPath,template_path,fullDestPath, basepath)

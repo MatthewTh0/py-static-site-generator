@@ -137,7 +137,7 @@ class TestTextNode(unittest.TestCase):
         expectedResult = [
             TextNode("An unpopular opinion, I know.", TextType.ITALIC)
         ]
-        print("HEREE")
+        #print("HEREE")
         self.assertEqual(codeDelimited,expectedResult)
 
     def test_multi_code_delim_with_delim_at_end(self):
