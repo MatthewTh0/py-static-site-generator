@@ -38,7 +38,7 @@ def copy_directory_content(srcDirectory:str,destDirectory:str, safetyOn:bool=Tru
             copy_directory_content(fullPath,subDestPath, safetyOn)
 
 
-def generate_page(from_path:str, template_path:str, dest_path:str,basepath:str="/"):
+def generate_page(from_path:str, template_path:str, dest_path:str, basepath:str="/"):
     if os.path.exists(from_path) and os.path.isfile(from_path):
 
         print(f"Generating page from {from_path} to {dest_path} using {template_path}")
@@ -55,8 +55,8 @@ def generate_page(from_path:str, template_path:str, dest_path:str,basepath:str="
         #print(f"Found title of {thisTitle} and content of {createdHTMLFileContent}")
         finalFileContent = templFileContent.replace("{{ Title }}", thisTitle)
         finalFileContent =finalFileContent.replace("{{ Content }}", createdHTMLFileContent)
-        finalFileContent = finalFileContent.replace('href="/',f'href="{basepath}')
-        finalFileContent = finalFileContent.replace('src="/', f'src="{basepath}')
+        #finalFileContent = finalFileContent.replace('href="/',f'href="{basepath}')
+        #finalFileContent = finalFileContent.replace('src="/', f'src="{basepath}')
         if not os.path.exists(dest_path):
             #print(os.path.dirname(dest_path))
 

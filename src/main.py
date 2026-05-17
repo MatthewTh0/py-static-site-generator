@@ -21,7 +21,7 @@ def main():
 
     basepath="/"
     if sys.argv:
-        basepath = sys.argv[0]
+        basepath = sys.argv[1]
 
 
 
@@ -29,6 +29,6 @@ def main():
     #print(extract_title("# Hello"))
     copy_directory_content("static/","docs/", False)#args.safe)
     #generate_page("content/index.md","template.html","public/index.html")
-    generate_pages_recursive("content","template.html","docs", basepath)
+    generate_pages_recursive("content","template.html", "docs", basepath)
 
 main()
